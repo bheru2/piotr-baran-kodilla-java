@@ -4,7 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -37,14 +39,8 @@ public class CollectionTestSuite {
     public void testOddNumbersExterminatorNormalList() {
         //Given
         OddNumbersExterminator oddNumbersExterminator = new OddNumbersExterminator();
-        List<Integer> expected = new ArrayList<>();
-        List<Integer> given = new ArrayList<>();
-        expected.add(4);
-        expected.add(10);
-        given.add(1);
-        given.add(4);
-        given.add(5);
-        given.add(10);
+        List<Integer> expected = Arrays.asList(4, 10);
+        List<Integer> given = Arrays.asList(1, 4, 5, 10);
         //When
         List<Integer> actual = oddNumbersExterminator.exterminate(given);
         //Then
