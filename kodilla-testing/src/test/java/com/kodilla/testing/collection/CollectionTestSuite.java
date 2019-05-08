@@ -39,8 +39,8 @@ public class CollectionTestSuite {
         OddNumbersExterminator oddNumbersExterminator = new OddNumbersExterminator();
         List<Integer> expected = new ArrayList<>();
         List<Integer> given = new ArrayList<>();
-        expected.add(1);
-        expected.add(5);
+        expected.add(4);
+        expected.add(10);
         given.add(1);
         given.add(4);
         given.add(5);
