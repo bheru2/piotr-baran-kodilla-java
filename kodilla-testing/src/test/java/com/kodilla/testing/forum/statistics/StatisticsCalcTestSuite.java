@@ -1,229 +1,149 @@
 package com.kodilla.testing.forum.statistics;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class StatisticsCalcTestSuite {
 
+    @Mock
+    private Statistics statisticsMock;
+
     @Test
-    public void testNoPosts(){
+    public void testZeroNumberOfPosts() {
         //Given
-        Statistics statisticsMock = mock(Statistics.class);
-
-        List<String> userList = new LinkedList<String>();
-        for(int i = 0 ; i<100; i++){
-            userList.add("A"+i);
-        }
-
+        List<String> userList = generateUsersName(10);
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.postsCount()).thenReturn(0);
-        when(statisticsMock.commentsCount()).thenReturn(10);
-
         StatisticsCalc statisticsCalc = new StatisticsCalc();
         statisticsCalc.calculateAdvStatistics(statisticsMock);
         //When
-        int usersCount = statisticsCalc.getNumberOfUsers();
-        int postCount = statisticsCalc.getNumberOfPosts();
-        int commentsCount = statisticsCalc.getNumberOfComments();
-        int postOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
+        int actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
         //Then
-        assertEquals(100, usersCount);
-        assertEquals(0, postCount);
-        assertEquals(10, commentsCount);
-        assertEquals(0,postOnUser);
-        assertEquals(0, commentsOnUser);
-        assertEquals(0, commentsOnPost);
+        assertEquals(0, actualAverageCommentsPerUser, 2);
+        assertEquals(0, actualAverageCommentsPerPost);
+        assertEquals(0, actualAveragePostsPerUser, 2);
     }
 
     @Test
-    public void test1000Posts(){
+    public void test1000NumberOfPosts() {
         //Given
-        Statistics statisticsMock = mock(Statistics.class);
-
-        List<String> userList = new LinkedList<String>();
-        for(int i = 0 ; i<10; i++){
-            userList.add("A"+i);
-        }
+        List<String> userList = generateUsersName(50);
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.postsCount()).thenReturn(1000);
-        when(statisticsMock.commentsCount()).thenReturn(100);
-
         StatisticsCalc statisticsCalc = new StatisticsCalc();
         statisticsCalc.calculateAdvStatistics(statisticsMock);
         //When
-        int usersCount = statisticsCalc.getNumberOfUsers();
-        int postCount = statisticsCalc.getNumberOfPosts();
-        int commentsCount = statisticsCalc.getNumberOfComments();
-        int postOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
         //Then
-        assertEquals(10, usersCount);
-        assertEquals(1000, postCount);
-        assertEquals(100, commentsCount);
-        assertEquals(100,postOnUser);
-        assertEquals(10, commentsOnUser);
-        assertEquals(0, commentsOnPost);
+        assertEquals(20, actualAveragePostsPerUser, 2);
     }
 
     @Test
-    public void testNoComms(){
+    public void testZeroNumberOfComments() {
         //Given
-        Statistics statisticsMock = mock(Statistics.class);
-
-        List<String> userList = new LinkedList<String>();
-        for(int i = 0 ; i<10; i++){
-            userList.add("A"+i);
-        }
+        List<String> userList = generateUsersName(50);
         when(statisticsMock.usersNames()).thenReturn(userList);
-        when(statisticsMock.postsCount()).thenReturn(10);
         when(statisticsMock.commentsCount()).thenReturn(0);
-
         StatisticsCalc statisticsCalc = new StatisticsCalc();
         statisticsCalc.calculateAdvStatistics(statisticsMock);
         //When
-        int usersCount = statisticsCalc.getNumberOfUsers();
-        int postCount = statisticsCalc.getNumberOfPosts();
-        int commentsCount = statisticsCalc.getNumberOfComments();
-        int postOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
+        double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
         //Then
-        assertEquals(10, usersCount);
-        assertEquals(10, postCount);
-        assertEquals(0, commentsCount);
-        assertEquals(1,postOnUser);
-        assertEquals(0, commentsOnUser);
-        assertEquals(0, commentsOnPost);
+        assertEquals(0, actualAverageCommentsPerUser, 2);
+        assertEquals(0, actualAverageCommentsPerPost, 2);
     }
 
     @Test
-    public void testCommsLowThenPosts(){
+    public void testNumberOfCommentsIsGraterThanNumberOfPosts() {
         //Given
-        Statistics statisticsMock = mock(Statistics.class);
-
-        List<String> userList = new LinkedList<String>();
-        for(int i = 0 ; i<10; i++){
-            userList.add("A"+i);
-        }
+        List<String> userList = generateUsersName(1);
         when(statisticsMock.usersNames()).thenReturn(userList);
-        when(statisticsMock.postsCount()).thenReturn(100);
         when(statisticsMock.commentsCount()).thenReturn(10);
-
+        when(statisticsMock.postsCount()).thenReturn(2);
         StatisticsCalc statisticsCalc = new StatisticsCalc();
         statisticsCalc.calculateAdvStatistics(statisticsMock);
         //When
-        int usersCount = statisticsCalc.getNumberOfUsers();
-        int postCount = statisticsCalc.getNumberOfPosts();
-        int commentsCount = statisticsCalc.getNumberOfComments();
-        int postOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
+        double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
         //Then
-        assertEquals(10, usersCount);
-        assertEquals(100, postCount);
-        assertEquals(10, commentsCount);
-        assertEquals(10,postOnUser);
-        assertEquals(1, commentsOnUser);
-        assertEquals(0, commentsOnPost);
+        assertEquals(10, actualAverageCommentsPerUser, 2);
+        assertEquals(5, actualAverageCommentsPerPost, 2);
+        assertEquals(2, actualAveragePostsPerUser, 2);
     }
 
     @Test
-    public void testCommsMoreThenPosts(){
+    public void testNumberOfCommentsIsSmallerThanNumberOfPosts() {
         //Given
-        Statistics statisticsMock = mock(Statistics.class);
-
-        List<String> userList = new LinkedList<String>();
-        for(int i = 0 ; i<10; i++){
-            userList.add("A"+i);
-        }
+        List<String> userList = generateUsersName(1);
         when(statisticsMock.usersNames()).thenReturn(userList);
-        when(statisticsMock.postsCount()).thenReturn(10);
-        when(statisticsMock.commentsCount()).thenReturn(100);
-
+        when(statisticsMock.commentsCount()).thenReturn(4);
+        when(statisticsMock.postsCount()).thenReturn(8);
         StatisticsCalc statisticsCalc = new StatisticsCalc();
         statisticsCalc.calculateAdvStatistics(statisticsMock);
         //When
-        int usersCount = statisticsCalc.getNumberOfUsers();
-        int postCount = statisticsCalc.getNumberOfPosts();
-        int commentsCount = statisticsCalc.getNumberOfComments();
-        int postOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
+        double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
         //Then
-        assertEquals(10, usersCount);
-        assertEquals(10, postCount);
-        assertEquals(100, commentsCount);
-        assertEquals(1,postOnUser);
-        assertEquals(10, commentsOnUser);
-        assertEquals(10, commentsOnPost);
+        assertEquals(4, actualAverageCommentsPerUser, 2);
+        assertEquals(0.5, actualAverageCommentsPerPost, 2);
+        assertEquals(8, actualAveragePostsPerUser, 2);
     }
 
     @Test
-    public void testNoUsers(){
+    public void testZeroNumbersOfUsers() {
         //Given
-        Statistics statisticsMock = mock(Statistics.class);
-
-        List<String> userList = new LinkedList<String>();
-
+        List<String> userList = generateUsersName(0);
         when(statisticsMock.usersNames()).thenReturn(userList);
-        when(statisticsMock.postsCount()).thenReturn(10);
-        when(statisticsMock.commentsCount()).thenReturn(10);
-
         StatisticsCalc statisticsCalc = new StatisticsCalc();
         statisticsCalc.calculateAdvStatistics(statisticsMock);
         //When
-        int usersCount = statisticsCalc.getNumberOfUsers();
-        int postCount = statisticsCalc.getNumberOfPosts();
-        int commentsCount = statisticsCalc.getNumberOfComments();
-        int postOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
+        double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
         //Then
-        assertEquals(0, usersCount);
-        assertEquals(10, postCount);
-        assertEquals(10, commentsCount);
-        assertEquals(0,postOnUser);
-        assertEquals(0, commentsOnUser);
-        assertEquals(1, commentsOnPost);
+        assertEquals(0, actualAverageCommentsPerUser, 2);
+        assertEquals(0, actualAverageCommentsPerPost, 2);
+        assertEquals(0, actualAveragePostsPerUser, 2);
     }
 
     @Test
-    public void test100Users(){
+    public void test100NumbersOfUsers() {
         //Given
-        Statistics statisticsMock = mock(Statistics.class);
-
-        List<String> userList = new LinkedList<String>();
-        for(int i = 0 ; i<100; i++){
-            userList.add("A"+i);
-        }
+        List<String> userList = generateUsersName(100);
         when(statisticsMock.usersNames()).thenReturn(userList);
+        when(statisticsMock.commentsCount()).thenReturn(1000);
         when(statisticsMock.postsCount()).thenReturn(100);
-        when(statisticsMock.commentsCount()).thenReturn(100);
-
         StatisticsCalc statisticsCalc = new StatisticsCalc();
         statisticsCalc.calculateAdvStatistics(statisticsMock);
         //When
-        int usersCount = statisticsCalc.getNumberOfUsers();
-        int postCount = statisticsCalc.getNumberOfPosts();
-        int commentsCount = statisticsCalc.getNumberOfComments();
-        int postOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnUser = statisticsCalc.getAveragePostsPerUser();
-        int commentsOnPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
+        double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
         //Then
-        assertEquals(100, usersCount);
-        assertEquals(100, postCount);
-        assertEquals(100, commentsCount);
-        assertEquals(1,postOnUser);
-        assertEquals(1, commentsOnUser);
-        assertEquals(1, commentsOnPost);
+        assertEquals(10, actualAverageCommentsPerUser, 2);
+        assertEquals(10, actualAverageCommentsPerPost, 2);
+        assertEquals(1, actualAveragePostsPerUser, 2);
+    }
+
+    private List<String> generateUsersName(int usersNumber) {
+        List<String> userList = new ArrayList<>();
+        for (int i = 0; i < usersNumber; i++) {
+            userList.add("User " + i);
+        }
+        return userList;
     }
 }
