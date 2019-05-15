@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookLibrary {
-    LibraryDatabase libraryDatabase;
+    private LibraryDatabase libraryDatabase;
 
     public BookLibrary(LibraryDatabase libraryDatabase) {
         this.libraryDatabase = libraryDatabase;
@@ -17,13 +17,19 @@ public class BookLibrary {
         }
         List<Book> resultList = libraryDatabase.listBooksWithCondition(titleFragment);
         if (resultList.size() > 20) {
+            for (Book book : resultList) {
+                bookList.add(book);
+                if (bookList.size() == 20) {
+                    break;
+                }
+            }
             return bookList;
         }
         bookList = resultList;
         return bookList;
     }
 
-    public List<Book> listBooksInHandsOf(LibraryUser libraryUser){
+    public List<Book> listBooksInHandsOf(LibraryUser libraryUser) {
         return this.libraryDatabase.listBooksInHandsOf(libraryUser);
     }
 }
