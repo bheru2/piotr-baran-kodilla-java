@@ -5,17 +5,20 @@ public class StatisticsCalc {
     private int numberOfPosts;
     private int numberOfComments;
     private double averagePostsPerUser;
-    private int averageCommentsPerUser;
-    private int averageCommentsPerPost;
+    private double averageCommentsPerUser;
+    private double averageCommentsPerPost;
 
-    public void calculateAdvStatistics(Statistics statistics) {
+    public StatisticsCalc(Statistics statistics) {
         this.numberOfUsers = statistics.usersNames().size();
         this.numberOfPosts = statistics.postsCount();
         this.numberOfComments = statistics.commentsCount();
-        if (statistics.usersNames().size() !=0 && (statistics.postsCount() != 0)){
-            this.averagePostsPerUser = statistics.postsCount() / statistics.usersNames().size();
-            this.averageCommentsPerUser = statistics.commentsCount() / statistics.usersNames().size();
-            this.averageCommentsPerPost = statistics.commentsCount() / statistics.postsCount();
+           }
+
+    public void calculateAdvStatistics() {
+        if (this.numberOfUsers != 0 && this.numberOfPosts != 0) {
+            this.averagePostsPerUser = this.numberOfPosts / this.numberOfUsers;
+            this.averageCommentsPerUser = this.numberOfComments / this.numberOfUsers;
+            this.averageCommentsPerPost = this.numberOfComments / this.numberOfPosts;
         } else {
             this.averagePostsPerUser = 0;
             this.averageCommentsPerUser = 0;
@@ -48,11 +51,11 @@ public class StatisticsCalc {
         return averagePostsPerUser;
     }
 
-    public int getAverageCommentsPerUser() {
+    public double getAverageCommentsPerUser() {
         return averageCommentsPerUser;
     }
 
-    public int getAverageCommentsPerPost() {
+    public double getAverageCommentsPerPost() {
         return averageCommentsPerPost;
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(MockitoJUnitRunner.class)
 public class StatisticsCalcTestSuite {
 
     @Mock
@@ -23,15 +23,15 @@ public class StatisticsCalcTestSuite {
         List<String> userList = generateUsersName(10);
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.postsCount()).thenReturn(0);
-        StatisticsCalc statisticsCalc = new StatisticsCalc();
-        statisticsCalc.calculateAdvStatistics(statisticsMock);
+        StatisticsCalc statisticsCalc = new StatisticsCalc(statisticsMock);
+        statisticsCalc.calculateAdvStatistics();
         //When
         double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
-        int actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
+        double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
         double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
         //Then
         assertEquals(0, actualAverageCommentsPerUser, 2);
-        assertEquals(0, actualAverageCommentsPerPost);
+        assertEquals(0, actualAverageCommentsPerPost, 2);
         assertEquals(0, actualAveragePostsPerUser, 2);
     }
 
@@ -41,8 +41,8 @@ public class StatisticsCalcTestSuite {
         List<String> userList = generateUsersName(50);
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.postsCount()).thenReturn(1000);
-        StatisticsCalc statisticsCalc = new StatisticsCalc();
-        statisticsCalc.calculateAdvStatistics(statisticsMock);
+        StatisticsCalc statisticsCalc = new StatisticsCalc(statisticsMock);
+        statisticsCalc.calculateAdvStatistics();
         //When
         double actualAveragePostsPerUser = statisticsCalc.getAveragePostsPerUser();
         //Then
@@ -55,8 +55,8 @@ public class StatisticsCalcTestSuite {
         List<String> userList = generateUsersName(50);
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.commentsCount()).thenReturn(0);
-        StatisticsCalc statisticsCalc = new StatisticsCalc();
-        statisticsCalc.calculateAdvStatistics(statisticsMock);
+        StatisticsCalc statisticsCalc = new StatisticsCalc(statisticsMock);
+        statisticsCalc.calculateAdvStatistics();
         //When
         double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
         double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
@@ -72,8 +72,8 @@ public class StatisticsCalcTestSuite {
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.commentsCount()).thenReturn(10);
         when(statisticsMock.postsCount()).thenReturn(2);
-        StatisticsCalc statisticsCalc = new StatisticsCalc();
-        statisticsCalc.calculateAdvStatistics(statisticsMock);
+        StatisticsCalc statisticsCalc = new StatisticsCalc(statisticsMock);
+        statisticsCalc.calculateAdvStatistics();
         //When
         double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
         double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
@@ -91,8 +91,8 @@ public class StatisticsCalcTestSuite {
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.commentsCount()).thenReturn(4);
         when(statisticsMock.postsCount()).thenReturn(8);
-        StatisticsCalc statisticsCalc = new StatisticsCalc();
-        statisticsCalc.calculateAdvStatistics(statisticsMock);
+        StatisticsCalc statisticsCalc = new StatisticsCalc(statisticsMock);
+        statisticsCalc.calculateAdvStatistics();
         //When
         double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
         double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
@@ -108,8 +108,8 @@ public class StatisticsCalcTestSuite {
         //Given
         List<String> userList = generateUsersName(0);
         when(statisticsMock.usersNames()).thenReturn(userList);
-        StatisticsCalc statisticsCalc = new StatisticsCalc();
-        statisticsCalc.calculateAdvStatistics(statisticsMock);
+        StatisticsCalc statisticsCalc = new StatisticsCalc(statisticsMock);
+        statisticsCalc.calculateAdvStatistics();
         //When
         double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
         double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
@@ -127,8 +127,8 @@ public class StatisticsCalcTestSuite {
         when(statisticsMock.usersNames()).thenReturn(userList);
         when(statisticsMock.commentsCount()).thenReturn(1000);
         when(statisticsMock.postsCount()).thenReturn(100);
-        StatisticsCalc statisticsCalc = new StatisticsCalc();
-        statisticsCalc.calculateAdvStatistics(statisticsMock);
+        StatisticsCalc statisticsCalc = new StatisticsCalc(statisticsMock);
+        statisticsCalc.calculateAdvStatistics();
         //When
         double actualAverageCommentsPerUser = statisticsCalc.getAverageCommentsPerUser();
         double actualAverageCommentsPerPost = statisticsCalc.getAverageCommentsPerPost();
