@@ -12,9 +12,6 @@ public class StatisticsCalc {
         this.numberOfUsers = statistics.usersNames().size();
         this.numberOfPosts = statistics.postsCount();
         this.numberOfComments = statistics.commentsCount();
-           }
-
-    public void calculateAdvStatistics() {
         if (this.numberOfUsers != 0 && this.numberOfPosts != 0) {
             this.averagePostsPerUser = this.numberOfPosts / this.numberOfUsers;
             this.averageCommentsPerUser = this.numberOfComments / this.numberOfUsers;
