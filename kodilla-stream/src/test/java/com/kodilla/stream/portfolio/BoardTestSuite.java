@@ -102,20 +102,20 @@ public class BoardTestSuite {
     @Test
     public void testAddTaskListFindOutdatedTasks() {
         //Given
-        Board projects = prepareTestData();
+        Board project = prepareTestData();
 
         //When
         List<TaskList> undoneTasks = new ArrayList<>();
         undoneTasks.add(new TaskList("To do"));
-        undoneTasks.add((new TaskList("In progress")));
-        List<Task> outdatedTasks = projects.getTaskLists().stream()
+        undoneTasks.add(new TaskList("In progress"));
+        List<Task> tasks = project.getTaskLists().stream()
                 .filter(undoneTasks::contains)
-                .flatMap(taskList -> taskList.getTasks().stream())
-                .filter(task -> task.getDeadline().isBefore(LocalDate.now()))
-                .collect(Collectors.toList());
+                .flatMap(tl -> tl.getTasks().stream())
+                .filter(t -> t.getDeadline().isBefore(LocalDate.now()))
+                .collect(toList());
 
         //Then
-        assertEquals(1, outdatedTasks.size());
-        assertEquals("HQLs for analysis", outdatedTasks.get(0).getTitle());
+       assertEquals(1, tasks.size());
+       assertEquals("HQLs for analysis", tasks.get(0).getTitle());
     }
 }
