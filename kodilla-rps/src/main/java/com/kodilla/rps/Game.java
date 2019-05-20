@@ -1,92 +1,91 @@
 package com.kodilla.rps;
 
-public class Game {
-    private Input input;
+import java.util.Arrays;
+import java.util.List;
 
-    public Game(Input input) {
-        this.input = input;
+public class Game {
+    private KeyboardInput keyboardInput;
+    boolean isEasyGame = false;
+    String levelChoose;
+//    private List<String> allowedInputs = Arrays.asList("1","2","3","4", "5","r" ,"q");
+    boolean isRunning =false;
+    HumanPlayer humanPlayer;
+    ComputerPlayer cpu;
+    public Game(KeyboardInput keyboardInput) {
+        this.keyboardInput = keyboardInput;
     }
 
-    public void init() throws InterruptedException {
+    public void initGame() throws InterruptedException {
         System.out.println("Welcome in RPS game!!");
         System.out.println("---------------------");
+        System.out.println("Please enter your name");
+        humanPlayer = new HumanPlayer(this.keyboardInput.key());
+        List<String> allowedInputs = Arrays.asList("1","2" ,"q");
+        do{
         System.out.println("Please choose level  ");
-        System.out.println("1. Hard");
-        System.out.println("2. Easy");
-        System.out.println("x  Exit Application");
-        String levelChoose = this.input.key();
-        switch (levelChoose) {
-            case "1":
-                start();
-                break;
-            case "2":
-                System.out.println();
-                break;
-            case "x":
-                break;
-            default:
-                System.out.println("You pressed wrong button");
-                Thread.sleep(1000);
-                init();
+        System.out.println("1. Easy Game");
+        System.out.println("2. Hard Game");
+        System.out.println("q  Exit Application");
+        this.levelChoose = this.keyboardInput.key();
+        if (this.levelChoose.toLowerCase().equals("q")){
+            isRunning= true;
+        } else if(!this.levelChoose.equals("1")){
+            isEasyGame = true;
         }
+        }while (!allowedInputs.contains(levelChoose));
+
+        start();
     }
 
     public void start() throws InterruptedException {
-        System.out.println("Please enter your name");
-        String playerName = this.input.key();
-        Player player = new Player(playerName);
-        CPU cpu = new CPU();
-        boolean isRunning = false;
+
         System.out.println("ile rund");
-        int rounds = Integer.parseInt(this.input.key());
+        int rounds = Integer.parseInt(this.keyboardInput.key());
         while (!isRunning) {
             System.out.println("wybierz item");
             System.out.println("1." + Item.PAPER);
             System.out.println("2." + Item.ROCK);
             System.out.println("3." + Item.SCISSORS);
-            System.out.println("4." + Item.SPOCK);
-            System.out.println("5." + Item.LIZARD);
+            if (this.isEasyGame) {
+                System.out.println("4." + Item.SPOCK);
+                System.out.println("5." + Item.LIZARD);
+            }
             System.out.println("x  Exit Application");
-            String chooseItem = (this.input.key());
+            String chooseItem = (this.keyboardInput.key());
             switch (chooseItem) {
                 case "1":
-                    System.out.println(player.getName() + " wybral " + Item.PAPER);
-                    player.setItem(Item.PAPER);
-                    cpu.itemGenerator();
-                    System.out.println("CPU wybral " + cpu.getItem());
-                    Compare.compareItems(player, cpu);
+                    System.out.println(humanPlayer.getName() + " wybral " + Item.PAPER);
+                    humanPlayer.setItem(Item.PAPER);
+                    System.out.println("CPU wybral " + cpu.itemGenerator());
+                    Compare.compareItems(humanPlayer, cpu);
                     Thread.sleep(1000);
                     break;
                 case "2":
-                    System.out.println(player.getName() + " wybral " + Item.ROCK);
-                    player.setItem(Item.ROCK);
-                    cpu.itemGenerator();
-                    System.out.println("CPU wybral " + cpu.getItem());
-                    Compare.compareItems(player, cpu);
+                    System.out.println(humanPlayer.getName() + " wybral " + Item.ROCK);
+                    humanPlayer.setItem(Item.ROCK);
+                    System.out.println("CPU wybral " + cpu.itemGenerator());
+                    Compare.compareItems(humanPlayer, cpu);
                     Thread.sleep(1000);
                     break;
                 case "3":
-                    System.out.println(player.getName() + " wybral " + Item.SCISSORS);
-                    player.setItem(Item.SCISSORS);
-                    cpu.itemGenerator();
-                    System.out.println("CPU wybral " + cpu.getItem());
-                    Compare.compareItems(player, cpu);
+                    System.out.println(humanPlayer.getName() + " wybral " + Item.SCISSORS);
+                    humanPlayer.setItem(Item.SCISSORS);
+                    System.out.println("CPU wybral " + cpu.itemGenerator());
+                    Compare.compareItems(humanPlayer, cpu);
                     Thread.sleep(1000);
                     break;
                 case "4":
-                    System.out.println(player.getName() + " wybral " + Item.SPOCK);
-                    player.setItem(Item.SPOCK);
-                    cpu.itemGenerator();
-                    System.out.println("CPU wybral " + cpu.getItem());
-                    Compare.compareItems(player, cpu);
+                    System.out.println(humanPlayer.getName() + " wybral " + Item.SPOCK);
+                    humanPlayer.setItem(Item.SPOCK);
+                    System.out.println("CPU wybral " + cpu.itemGenerator());
+                    Compare.compareItems(humanPlayer, cpu);
                     Thread.sleep(1000);
                     break;
                 case "5":
-                    System.out.println(player.getName() + " wybral " + Item.LIZARD);
-                    player.setItem(Item.LIZARD);
-                    cpu.itemGenerator();
-                    System.out.println("CPU wybral " + cpu.getItem());
-                    Compare.compareItems(player, cpu);
+                    System.out.println(humanPlayer.getName() + " wybral " + Item.LIZARD);
+                    humanPlayer.setItem(Item.LIZARD);
+                    System.out.println("CPU wybral " + cpu.itemGenerator());
+                    Compare.compareItems(humanPlayer, cpu);
                     Thread.sleep(1000);
                     break;
                 case "x":
@@ -94,22 +93,22 @@ public class Game {
                     isRunning = true;
                     break;
                 default:
-                    System.out.println(player.getName() + " wybrales zla opcje komputer dostaje punkt");
+                    System.out.println(humanPlayer.getName() + " wybrales zla opcje komputer dostaje punkt");
                     cpu.setScore(cpu.getScore() + 1);
             }
             if (isRunning) {
                 break;
             }
-            System.out.println(player.getName() + " : " + player.getScore() + " points");
+            System.out.println(humanPlayer.getName() + " : " + humanPlayer.getScore() + " points");
             System.out.println("Computer" + " : " + cpu.getScore() + " points");
             Thread.sleep(1000);
             System.out.println();
             rounds--;
             if (rounds == 0) {
                 isRunning = true;
-                if (player.getScore() > cpu.getScore()) {
+                if (humanPlayer.getScore() > cpu.getScore()) {
                     System.out.println("Wygrales");
-                } else if (player.getScore() == cpu.getScore()) {
+                } else if (humanPlayer.getScore() == cpu.getScore()) {
                     System.out.println("Remis");
                 } else {
                     System.out.println("Przegrales");
