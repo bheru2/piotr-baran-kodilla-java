@@ -1,12 +1,11 @@
 package com.kodilla.rps;
 
-public class HumanPlayer {
+public class HumanPlayer implements Player{
     private Item item;
     private String name;
     private int score;
 
-    public HumanPlayer(String name) {
-        this.name = name;
+    public HumanPlayer() {
     }
 
     public Item getItem() {
@@ -17,6 +16,10 @@ public class HumanPlayer {
         this.item = item;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -25,9 +28,7 @@ public class HumanPlayer {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScore() {
+        this.score++;
     }
-
 }
-
