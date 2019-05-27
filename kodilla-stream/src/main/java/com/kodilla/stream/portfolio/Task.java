@@ -52,6 +52,6 @@ public final class Task {
                 ", creator=" + creator +
                 ", created=" + created +
                 ", deadline=" + deadline +
-                '}';
+                '}' + "\n";
     }
 }

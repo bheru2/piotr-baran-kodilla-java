@@ -2,7 +2,6 @@ package com.kodilla.stream.portfolio;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public final class TaskList {
     private final List<Task> tasks = new LinkedList<>();
@@ -31,22 +30,23 @@ public final class TaskList {
     @Override
     public String toString() {
         return "TaskList{" +
-                "tasks=" + tasks +
-                ", name='" + name + '\'' +
-                '}';
+                "name='" + name + '\'' + ",\n" +
+                "tasks=\n" + tasks + "\n" +
+                '}' + "\n";
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         TaskList taskList = (TaskList) o;
-        return Objects.equals(tasks, taskList.tasks) &&
-                Objects.equals(name, taskList.name);
+
+        return name.equals(taskList.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tasks, name);
+        return name.hashCode();
     }
 }
