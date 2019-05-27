@@ -1,5 +1,5 @@
 package com.kodilla.rps;
 
-public enum Item {
+public enum ChooseMove {
     ROCK , SCISSORS, PAPER, LIZARD,SPOCK
 }

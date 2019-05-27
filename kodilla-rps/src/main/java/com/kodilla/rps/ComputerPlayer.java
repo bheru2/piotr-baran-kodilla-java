@@ -3,12 +3,12 @@ package com.kodilla.rps;
 import java.util.Random;
 
 public class ComputerPlayer implements Player {
-    private Item item;
+    private ChooseMove chooseMove;
     private int score;
     private Random random = new Random();
 
-    public Item getItem() {
-        return item;
+    public ChooseMove getChooseMove() {
+        return chooseMove;
     }
 
     public int getScore() {
@@ -19,12 +19,12 @@ public class ComputerPlayer implements Player {
         this.score++;
     }
 
-    public Item itemGenerator(boolean easyLevel){
+    public ChooseMove itemGenerator(boolean easyLevel){
         if (easyLevel){
-            this.item = Item.values()[this.random.nextInt(Item.values().length)];
-            return this.item;
+            this.chooseMove = chooseMove.values()[this.random.nextInt(chooseMove.values().length)];
+            return this.chooseMove;
         }
-        this.item = Item.values()[this.random.nextInt(Item.values().length-2)];
-        return this.item;
+        this.chooseMove = chooseMove.values()[this.random.nextInt(chooseMove.values().length-2)];
+        return this.chooseMove;
     }
 }

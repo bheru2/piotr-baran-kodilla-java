@@ -19,23 +19,27 @@ public class Game {
     }
 
     public void run() {
-
-            do {
+        initGame();
+        while (!isRunning) {
+            newGame = false;
+            while (!newGame) {
                 initGameMenu();
-                while (!newGame) {
-                    startGame();
-                    endGame();
-                }
-            } while (!isRunning);
+                startGame();
+                endGame();
+            }
         }
+    }
 
-    private void initGameMenu() {
+    private void initGame() {
         this.cpu = new ComputerPlayer();
         this.humanPlayer = new HumanPlayer();
         System.out.println("Welcome in RPS game!!");
         System.out.println("---------------------");
         System.out.println("Please enter your name");
         this.humanPlayer.setName(this.keyboardInput.key().toUpperCase());
+    }
+
+    private void initGameMenu() {
         List<String> allowedInputs = Arrays.asList("1", "2", "q");
         String levelChoose;
         do {
@@ -46,6 +50,7 @@ public class Game {
             levelChoose = this.keyboardInput.key();
             if (levelChoose.toUpperCase().equals("Q")) {
                 isRunning = true;
+                newGame = true;
             } else if (!levelChoose.equals("1")) {
                 this.isEasyGame = true;
             }
@@ -53,6 +58,9 @@ public class Game {
     }
 
     private void startGame() {
+        if (isRunning) {
+            return;
+        }
         List<Integer> allowedInputs = Arrays.asList(1, 2, 3, 4, 5);
         int rounds = 0;
         do {
@@ -63,43 +71,43 @@ public class Game {
                 System.out.println("You have chosen the wrong option. Please try again");
             }
         } while (!allowedInputs.contains(rounds));
-        while (!isRunning||!newGame) {
+        while (!newGame) {
             System.out.println("wybierz item");
-            System.out.println("1." + Item.PAPER);
-            System.out.println("2." + Item.ROCK);
-            System.out.println("3." + Item.SCISSORS);
+            System.out.println("1." + ChooseMove.PAPER);
+            System.out.println("2." + ChooseMove.ROCK);
+            System.out.println("3." + ChooseMove.SCISSORS);
             if (this.isEasyGame) {
-                System.out.println("4." + Item.SPOCK);
-                System.out.println("5." + Item.LIZARD);
+                System.out.println("4." + ChooseMove.SPOCK);
+                System.out.println("5." + ChooseMove.LIZARD);
             }
             System.out.println("Q - Exit Application");
-            System.out.println("R - restart game");
             String moveChosen = (this.keyboardInput.key().toUpperCase());
             switch (moveChosen) {
                 case "1":
-                    fight(Item.PAPER);
+                    fight(ChooseMove.PAPER);
                     break;
                 case "2":
-                    fight(Item.ROCK);
+                    fight(ChooseMove.ROCK);
                     break;
                 case "3":
-                    fight(Item.SCISSORS);
+                    fight(ChooseMove.SCISSORS);
                     break;
                 case "4":
-                    fight(Item.SPOCK);
+                    fight(ChooseMove.SPOCK);
                     break;
                 case "5":
-                    fight(Item.LIZARD);
+                    fight(ChooseMove.LIZARD);
                     break;
                 case "Q":
                     System.out.println("Closing application");
+                    newGame = true;
                     isRunning = true;
                     break;
                 default:
                     System.out.println("You have chosen the wrong option. Please try again");
                     rounds++;
             }
-            if (isRunning) {
+            if (isRunning || isEasyGame) {
                 break;
             }
             rounds--;
@@ -110,29 +118,35 @@ public class Game {
     }
 
     private void endGame() {
+        if (newGame) {
+            return;
+        }
         if (humanPlayer.getScore() > cpu.getScore()) {
-            System.out.println("Wygrales");
+            System.out.println("You WIN!");
         } else if (humanPlayer.getScore() == cpu.getScore()) {
-            System.out.println("Remis");
+            System.out.println("DRAW");
         } else {
-            System.out.println("Przegrales");
+            System.out.println("You LOST");
         }
         List<String> allowedInputs = Arrays.asList("N", "Y");
         String playAgain;
         do {
-            System.out.println("Do you want paly again?");
+            System.out.println("Do you want play again?(Y/N)");
             playAgain = this.keyboardInput.key().toUpperCase();
         } while (!allowedInputs.contains(playAgain));
-        if (playAgain.equals("Y")) {
+        if (playAgain.equals("N")) {
+            this.isRunning = true;
+            this.newGame = true;
+        } else {
             this.newGame = true;
         }
     }
 
-    private void fight(Item item) {
-        System.out.println(humanPlayer.getName() + " choose " + item);
-        humanPlayer.setItem(item);
-        Result result = moveList.getResult((new Move(humanPlayer.getItem(), cpu.itemGenerator(isEasyGame))));
-        System.out.println("Computer choose " + cpu.getItem());
+    private void fight(ChooseMove chooseMove) {
+        System.out.println(humanPlayer.getName() + " choose " + chooseMove);
+        humanPlayer.setChooseMove(chooseMove);
+        Result result = moveList.getResult((new Move(humanPlayer.getChooseMove(), cpu.itemGenerator(isEasyGame))));
+        System.out.println("Computer choose " + cpu.getChooseMove());
         if (result == Result.WIN) {
             humanPlayer.setScore();
             System.out.println("You win");

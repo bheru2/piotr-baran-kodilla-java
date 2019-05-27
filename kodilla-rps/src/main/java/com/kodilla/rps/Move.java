@@ -3,10 +3,10 @@ package com.kodilla.rps;
 import java.util.Objects;
 
 public class Move {
-    private Item computerPlayer;
-    private Item humanPlayer;
+    private ChooseMove computerPlayer;
+    private ChooseMove humanPlayer;
 
-    public Move(Item computerPlayer, Item humanPlayer) {
+    public Move(ChooseMove computerPlayer, ChooseMove humanPlayer) {
         this.computerPlayer = computerPlayer;
         this.humanPlayer = humanPlayer;
     }

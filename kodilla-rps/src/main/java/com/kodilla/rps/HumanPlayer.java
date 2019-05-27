@@ -1,19 +1,19 @@
 package com.kodilla.rps;
 
-public class HumanPlayer implements Player{
-    private Item item;
+public class HumanPlayer implements Player {
+    private ChooseMove chooseMove;
     private String name;
     private int score;
 
     public HumanPlayer() {
     }
 
-    public Item getItem() {
-        return item;
+    public ChooseMove getChooseMove() {
+        return chooseMove;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setChooseMove(ChooseMove chooseMove) {
+        this.chooseMove = chooseMove;
     }
 
     public void setName(String name) {
