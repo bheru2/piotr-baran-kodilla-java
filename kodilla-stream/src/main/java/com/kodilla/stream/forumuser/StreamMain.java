@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 public class StreamMain {
     public static void main(String[] args) {
-        Forum forum = new Forum(20);
+
+        Forum forum = new Forum(UserGenerator.generateForumUsers(20));
         Map<Integer, ForumUser> result = forum.getForumUsers().stream()
                 .filter(user -> user.getSex() == 'M')
                 .filter(user -> user.getDateOfBorn().getYear() > 1999)
