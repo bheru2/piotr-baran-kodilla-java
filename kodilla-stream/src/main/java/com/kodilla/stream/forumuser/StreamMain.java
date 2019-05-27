@@ -1,15 +1,13 @@
-package com.kodilla.stream.beautifier;
-
-import com.kodilla.stream.forumuser.ForumUser;
-import com.kodilla.stream.forumuser.User;
+package com.kodilla.stream.forumuser;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StreamMain {
     public static void main(String[] args) {
-        User users = new User();
-        Map<Integer, ForumUser> result = users.getForumUsers().stream()
+
+        Forum forum = new Forum(UserGenerator.generateForumUsers(20));
+        Map<Integer, ForumUser> result = forum.getForumUsers().stream()
                 .filter(user -> user.getSex() == 'M')
                 .filter(user -> user.getDateOfBorn().getYear() > 1999)
                 .filter(user -> user.getPostNumber() > 40)
